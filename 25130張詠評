@@ -1,0 +1,52 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+ 
+class CaesarCipher
+{
+public:
+        CaesarCipher(int k):
+                key_(k)
+        {}
+ 
+        void operator() (char & c)
+        {
+                if ('a' <= c && c <= 'z')
+                {
+                        int n = c - 'a';
+                        n = (n + key_) % 26;
+                        c = static_cast< char >(n + 'a');
+                }
+                else if ('A' <= c && c <= 'Z')
+                {
+                        int n = c - 'A';
+                        n = (n + key_) % 26;
+                        c = static_cast< char >(n + 'A');
+                }
+        }
+ 
+private:
+        int key_;
+};
+ 
+int main()
+{
+        int key;
+        cout << "Enter the key: ";
+        cin >> key;
+        cin.get();
+ 
+        string message;
+        cout << "Enter the clear text: ";
+        getline( cin, message );
+ 
+        // encrypt
+        for_each( message.begin(), message.end(), CaesarCipher(key) );
+      cout << message << std::endl;
+ 
+        // decrypt
+        for_each( message.begin(), message.end(), CaesarCipher(-key) );
+        cout << message << std::endl;
+       
+}    
